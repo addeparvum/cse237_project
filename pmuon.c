@@ -9,6 +9,7 @@ MODULE_DESCRIPTION("PMUON");
 void set_pmu(void* dummy) {
     unsigned int v;
 	uint32_t ptype;
+	uint32_t counter;
     printk("Turn PMU on Core %d\n", smp_processor_id());
 
     // 1. Enable "User Enable Register"
@@ -33,6 +34,12 @@ void set_pmu(void* dummy) {
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000000));
 	ptype = INST_RETIRED;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));	
+
+	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
+
+	printk("Instructions executed in counter: %d\n",counter);
+
+	
 }
 
 
