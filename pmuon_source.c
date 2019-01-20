@@ -29,7 +29,8 @@ void set_pmu(void* dummy) {
 
     // 5. Set six event counter registers (Project Assignment you need to IMPLEMENT)
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000000));
-	
+	uint32_t ptype = INST_RETIRED;
+	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));	
 }
 
 
