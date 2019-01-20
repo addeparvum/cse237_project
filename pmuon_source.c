@@ -1,11 +1,8 @@
-// THIS IS THE TA SOLUTION
-// Enables 6 perf counters, for WI18 CSE237A
-
 #include <linux/module.h>
 #include <linux/kernel.h>
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Your name");
+MODULE_AUTHOR("CHENGCHEN_ZHANG");
 MODULE_DESCRIPTION("PMUON");
 
 void set_pmu(void* dummy) {
@@ -31,7 +28,8 @@ void set_pmu(void* dummy) {
             (v >> 11) & 0x1f, smp_processor_id());
 
     // 5. Set six event counter registers (Project Assignment you need to IMPLEMENT)
-
+	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000000));
+	
 }
 
 
