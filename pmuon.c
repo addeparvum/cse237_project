@@ -2,6 +2,12 @@
 #include <linux/kernel.h>
 
 #define INST_RETIRED 0x08
+#define L1D_CACHE    0x04
+#define L1D_CACHE_M  0x03
+#define L2D_CACHE	 0x16
+#define L2D_CACHE_M  0x17
+#define L1D_TLB_M    0x05
+
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("CHENGCHEN_ZHANG");
 MODULE_DESCRIPTION("PMUON");
@@ -31,13 +37,20 @@ void set_pmu(void* dummy) {
             (v >> 11) & 0x1f, smp_processor_id());
 
     // 5. Set six event counter registers (Project Assignment you need to IMPLEMENT)
+	// Instructions Architechurally executed
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000000));
 	ptype = INST_RETIRED;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));	
 
 	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
-
 	printk("Instructions executed in counter: %d\n",counter);
+
+	//L1D Cache Access
+	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000001));
+	ptype = L1D_CACHE;
+	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
+	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
+	printk("L1D Cache Acess: %d\n",counter);
 
 	
 }
