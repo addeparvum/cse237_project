@@ -38,7 +38,7 @@ unsigned int get_single_event(unsigned int cnt_index) {
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" :: "r"(cnt_index));
 	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" :  "=r"(value));
 
-
+	value = 10;
     return value;
 }
 
