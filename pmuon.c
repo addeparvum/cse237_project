@@ -42,43 +42,32 @@ void set_pmu(void* dummy) {
 	ptype = INST_RETIRED;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));	
 
-	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
-	printk("Instructions executed in counter: %d\n",counter);
-
 	//L1D Cache Access
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000001));
 	ptype = L1D_CACHE;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
-	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
-	printk("L1D Cache Acess: %d\n",counter);
 	
 	//L1D Cache Miss
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000002));
 	ptype = L1D_CACHE_M;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
-	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
-	printk("L1D Cache Miss: %d\n",counter);
 	
 	//L2D Cache Access
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000003));
 	ptype = L2D_CACHE;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
-	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
-	printk("L2D Cache Acess: %d\n",counter);
 
 	//L2D Cache Miss
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000004));
 	ptype = L2D_CACHE_M;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
-	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
-	printk("L2D_M Cache Acess: %d\n",counter);
 
 	//L1D TLB Miss
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000005));
 	ptype = L1D_TLB_M;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
-	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
-	printk("L1D_TLB_M Cache Acess: %d\n",counter);
+//	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
+//	printk("L1D_TLB_M Cache Acess: %d\n",counter);
 
 }
 
