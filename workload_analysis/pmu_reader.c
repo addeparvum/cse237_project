@@ -36,7 +36,7 @@ unsigned int get_single_event(unsigned int cnt_index) {
 
     // Implement your code here
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" :: "r"(0x00000000));
-	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" :  "=r"(value));
+	asm volatile("mcr p15, 0, %0, c9, c13, 2\n\t" :  "=r"(value));
 
     return value;
 }
