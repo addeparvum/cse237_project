@@ -41,7 +41,7 @@ void set_pmu(void* dummy) {
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00));
 	ptype = INST_RETIRED;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));	
-/*
+
 	//L1D Cache Access
 	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000001));
 	ptype = L1D_CACHE;
@@ -68,7 +68,7 @@ void set_pmu(void* dummy) {
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
 //	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
 //	printk("L1D_TLB_M Cache Acess: %d\n",counter);
-*/
+
 }
 
 
