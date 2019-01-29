@@ -38,27 +38,27 @@ void set_pmu(void* dummy) {
 
     // 5. Set six event counter registers (Project Assignment you need to IMPLEMENT)
 	// Instructions Architechurally executed
-	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00));
 	ptype = INST_RETIRED;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));	
 
 	//L1D Cache Access
-	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000001));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000001));
 	ptype = L1D_CACHE;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
 	
 	//L1D Cache Miss
-	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000002));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000002));
 	ptype = L1D_CACHE_M;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
 	
 	//L2D Cache Access
-	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000003));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000003));
 	ptype = L2D_CACHE;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
 
 	//L2D Cache Miss
-	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000004));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000004));
 	ptype = L2D_CACHE_M;
 	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
 
