@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
     // 0. Initialize the workload
     // ****** YOU MAY NEED TO CHANGE HERE TO TEST OTHER WORKLOADS *******
     printf("Initialization.\n");
-    register_workload(0, workload2_init, workload2_body, workload2_exit);
+    register_workload(0, workload3_init, workload3_body, workload3_exit);
     //register_workload(1, workload2_init, workload2_body, workload2_exit);
 
     // 1. Set CPU frequency
