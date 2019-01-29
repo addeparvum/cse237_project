@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     // 1. Set CPU frequency
     // ****** YOU MAY NEED TO CHANGE THIS TO USE set_by_min_freq() ******
     set_userspace_governor();
-    set_by_max_freq(); 
+    set_by_min_freq(); 
     int freq = get_cur_freq();
     
     // 2. Run workload
