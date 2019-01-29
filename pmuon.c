@@ -40,32 +40,32 @@ void set_pmu(void* dummy) {
 	// Instructions Architechurally executed
 	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00));
 	ptype = INST_RETIRED;
-	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));	
+	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(INST_RETIRED));	
 
 	//L1D Cache Access
-	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000001));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x01));
 	ptype = L1D_CACHE;
-	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
+	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(L1D_CACHE));
 	
 	//L1D Cache Miss
-	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000002));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x02));
 	ptype = L1D_CACHE_M;
-	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
+	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(L1D_CACHE_M));
 	
 	//L2D Cache Access
-	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000003));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x03));
 	ptype = L2D_CACHE;
-	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
+	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(L2D_CACHE));
 
 	//L2D Cache Miss
-	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000004));
+	asm volatile("mcr p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x04));
 	ptype = L2D_CACHE_M;
-	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
+	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(L2D_CACHE_M));
 
 	//L1D TLB Miss
-	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000005));
+	asm volatile("mrc p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x05));
 	ptype = L1D_TLB_M;
-	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(ptype));
+	asm volatile("mcr p15, 0, %0, c9, c13, 1\n\t" ::"r"(L1D_TLB_M));
 //	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
 //	printk("L1D_TLB_M Cache Acess: %d\n",counter);
 
