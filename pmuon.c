@@ -60,6 +60,8 @@ void set_pmu(void* dummy) {
 	//L1D TLB Miss
 	asm volatile("MCR p15, 0, %0, c9, c12, 5\n\t" ::"r"(0x00000005));
 	asm volatile("MCR p15, 0, %0, c9, c13, 1\n\t" ::"r"(L1D_TLB_M));
+//	asm volatile("mrc p15, 0, %0, c9, c13, 2\n\t" : "=r"(counter));
+//	printk("L1D_TLB_M Cache Acess: %d\n",counter);
 
 }
 
