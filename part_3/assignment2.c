@@ -30,35 +30,35 @@ void learn_workloads(SharedVariable* sv) {
 	// long long curTime = get_current_time_us();
 
 	long long curTime = get_current_time_us();
-	thread_button();
+	thread_button(sv);
 	sv->button = get_current_time_us() - curTime;
 	
 	curTime = get_current_time_us();
-	thread_threecolor();
+	thread_threecolor(sv);
 	sv->three_color = get_current_time_us() - curTime;
 
 	curTime = get_current_time_us();
-	thread_big();
+	thread_big(sv);
 	sv->big = get_current_time_us() - curTime;
 
 	curTime = get_current_time_us();
-	thread_small();
+	thread_small(sv);
 	sv->small = get_current_time_us() - curTime;
 
 	curTime = get_current_time_us();
-	thread_touch();
+	thread_touch(sv);
 	sv->touch = get_current_time_us() - curTime;
 
 	curTime = get_current_time_us();
-	thread_rgbcolor();
+	thread_rgbcolor(sv);
 	sv->rgbcolor = get_current_time_us() - curTime;
 
 	curTime = get_current_time_us();
-	thread_aled();
+	thread_aled(sv);
 	sv->aled = get_current_time_us() - curTime;
 
 	curTime = get_current_time_us();
-	thread_buzzer();
+	thread_buzzer(sv);
 	sv->buzzer = get_current_time_us() - curTime;
 
 
