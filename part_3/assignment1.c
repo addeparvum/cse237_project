@@ -19,7 +19,7 @@ void init_sensors(SharedVariable* sv) {
 void body_button(SharedVariable* sv) {
 	pinMode(PIN_BUTTON,INPUT);
 	int val = 0;
-	while(1){
+	while(sv->bProgramExit == 0){
 		val = digitalRead(PIN_BUTTON);
 		if(val == LOW){
 			if(sv->paused == 0){
@@ -38,7 +38,7 @@ void body_threecolor(SharedVariable* sv) {
 	pinMode(PIN_DIP_GRN,OUTPUT);
 	pinMode(PIN_DIP_BLU,OUTPUT);
 	while(1){
-		if(sv->paused == 1){
+		if(sv->bProgramExit == 0){
 			digitalWrite(PIN_DIP_RED,LOW);
 			digitalWrite(PIN_DIP_BLU,LOW);
 			digitalWrite(PIN_DIP_GRN,LOW);
@@ -59,7 +59,7 @@ void body_threecolor(SharedVariable* sv) {
 void body_big(SharedVariable* sv) {
 	pinMode(PIN_BIG,INPUT);
 	int val;
-	while(1){
+	while(sv->bProgramExit == 0){
 		val = digitalRead(PIN_BIG);
 		if(val == HIGH){
 			sv->bigMic = 1;
@@ -72,7 +72,7 @@ void body_big(SharedVariable* sv) {
 void body_small(SharedVariable* sv) {
 	pinMode(PIN_SMALL,INPUT);
 	int val;
-	while(1){
+	while(sv->bProgramExit == 0){
 		val = digitalRead(PIN_SMALL);
 		if(val == HIGH){
 			sv->smallMic = 1;
@@ -85,7 +85,7 @@ void body_small(SharedVariable* sv) {
 void body_touch(SharedVariable* sv) {
 	pinMode(PIN_TOUCH,INPUT);
 	int val;
-	while(1){
+	while(sv->bProgramExit == 0){
 		val = digitalRead(PIN_TOUCH);
 		if(val == HIGH){
 			sv->touchSensor = 1;
@@ -102,7 +102,7 @@ void body_rgbcolor(SharedVariable* sv) {
 	softPwmCreate(PIN_SMD_RED, 0, 0xFF);
 	softPwmCreate(PIN_SMD_GRN, 0, 0xFF);
     softPwmCreate(PIN_SMD_BLU, 0, 0xFF);	
-	while(1){
+	while(sv->bProgramExit == 0){
 		if(sv->paused == 1){
 			softPwmWrite(PIN_SMD_RED,0x00);
 			softPwmWrite(PIN_SMD_GRN,0x00);
@@ -134,7 +134,7 @@ void body_rgbcolor(SharedVariable* sv) {
 
 void body_aled(SharedVariable* sv) {
 	pinMode(PIN_ALED,OUTPUT);
-	while(1){
+	while(sv->bProgramExit == 0){
 		if(sv->paused == 1){
 			digitalWrite(PIN_ALED,LOW);
 		} else {
@@ -149,7 +149,7 @@ void body_aled(SharedVariable* sv) {
 void body_buzzer(SharedVariable* sv) {
 	pinMode(PIN_BUZZER,OUTPUT);
 	int count = 0;
-	while(1){
+	while(sv->bProgramExit == 0){
 		if((sv->bigMic) == 1){
 			while(count < 250){
 				digitalWrite(PIN_BUZZER,HIGH);
