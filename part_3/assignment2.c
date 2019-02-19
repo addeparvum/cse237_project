@@ -28,6 +28,41 @@ void learn_workloads(SharedVariable* sv) {
 
 	// Tip 2. You can get the current time here like:
 	// long long curTime = get_current_time_us();
+
+	long long curTime = get_current_time_us();
+	thread_button();
+	sv->button = get_current_time_us() - curTime;
+	
+	curTime = get_current_time_us();
+	thread_threecolor();
+	sv->three_color = get_current_time_us() - curTime;
+
+	curTime = get_current_time_us();
+	thread_big();
+	sv->big = get_current_time_us() - curTime;
+
+	curTime = get_current_time_us();
+	thread_small();
+	sv->small = get_current_time_us() - curTime;
+
+	curTime = get_current_time_us();
+	thread_touch();
+	sv->touch = get_current_time_us() - curTime;
+
+	curTime = get_current_time_us();
+	thread_rgbcolor();
+	sv->rgbcolor = get_current_time_us() - curTime;
+
+	curTime = get_current_time_us();
+	thread_aled();
+	sv->aled = get_current_time_us() - curTime;
+
+	curTime = get_current_time_us();
+	thread_buzzer();
+	sv->buzzer = get_current_time_us() - curTime;
+
+
+
 }
 
 

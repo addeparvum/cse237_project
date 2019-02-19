@@ -43,6 +43,14 @@ typedef struct shared_variable {
 	int bigMic;
 	int touchSensor;
 	int paused;
+	long long button;
+	long long three_color;
+	long long big;
+	long long small;
+	long long touch;
+	long long rgbcolor;
+	long long aled;
+	long long buzzer;
 } SharedVariable;
 
 
