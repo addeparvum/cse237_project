@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import os
-from time import sleep
+import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 host_name = '192.168.0.114'  # Change this to your Raspberry Pi IP address
@@ -56,14 +56,22 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]  # Only keep the value
 
         # GPIO setup
-        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BOARD)
         GPIO.setwarnings(False)
-        GPIO.setup(18, GPIO.OUT)
+        GPIO.setup(12, GPIO.OUT)
+        p = GPIO.PWM(12, 50)
+        p.start(7.5)
 
         if post_data == 'On':
-            GPIO.output(18, GPIO.HIGH)
+            while True:
+                p.ChangeDutyCycle(7.5)
+                time.sleep(1)
+                p.ChangeDutyCycle(2.5)
+                time.sleep(1)
+                p.ChangeDutyCycle(12.5)
+                time.sleep(1)
         else:
-            GPIO.output(18, GPIO.LOW)
+                p.stop()
         print("LED is {}".format(post_data))
         self._redirect('/')  # Redirect back to the root url
 
