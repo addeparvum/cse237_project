@@ -74,6 +74,9 @@ class MyServer(BaseHTTPRequestHandler):
 
         if post_data == 'On':
             p.stdin.write(('0\n').encode())
+            sleep(0.1)
+            out = (stdout.read())[:-1]
+            print(out)
        #     p.ChangeDutyCycle(7.5)
        #     time.sleep(1)
        #     p.ChangeDutyCycle(2.5)
@@ -82,6 +85,9 @@ class MyServer(BaseHTTPRequestHandler):
        #     time.sleep(1)
         else:
             p.stdin.write(('1\n').encode())
+            sleep(0.1)
+            out = (stdout.read())[:-1]
+            print(out)
                     
         #        p.stop()
         print("LED is {}".format(post_data))
