@@ -2,10 +2,12 @@ import RPi.GPIO as GPIO
 import os
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import subprocess import Popen, PIPE
 
 host_name = '0.0.0.0'  # Change this to your Raspberry Pi IP address
 host_port = 80
 
+process = Popen(['./run.out'], stdin=PIPE, stdout=PIPE)
 
 class MyServer(BaseHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
@@ -56,21 +58,23 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]  # Only keep the value
 
         # GPIO setup
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setwarnings(False)
-        GPIO.setup(12, GPIO.OUT)
-        p = GPIO.PWM(12, 50)
-        p.start(7.5)
+      #  GPIO.setmode(GPIO.BOARD)
+      #  GPIO.setwarnings(False)
+      #  GPIO.setup(12, GPIO.OUT)
+      #  p = GPIO.PWM(12, 50)
+      #  p.start(7.5)
 
         if post_data == 'On':
-            p.ChangeDutyCycle(7.5)
-            time.sleep(1)
-            p.ChangeDutyCycle(2.5)
-            time.sleep(1)
-            p.ChangeDutyCycle(12.5)
-            time.sleep(1)
+		process.communicate(input=('0\n').encode())
+       #     p.ChangeDutyCycle(7.5)
+       #     time.sleep(1)
+       #     p.ChangeDutyCycle(2.5)
+       #     time.sleep(1)
+       #     p.ChangeDutyCycle(12.5)
+       #     time.sleep(1)
         else:
-                p.stop()
+		process.communicate(input=('1\n').encode())
+        #        p.stop()
         print("LED is {}".format(post_data))
         self._redirect('/')  # Redirect back to the root url
 
