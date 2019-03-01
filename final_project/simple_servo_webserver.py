@@ -7,7 +7,7 @@ from subprocess import Popen, PIPE
 host_name = '0.0.0.0'  # Change this to your Raspberry Pi IP address
 host_port = 80
 
-process = Popen(['./run.out'], stdin=PIPE, stdout=PIPE)
+p = Popen(['./run.out'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
 class MyServer(BaseHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
@@ -65,9 +65,19 @@ class MyServer(BaseHTTPRequestHandler):
       #  p.start(7.5)
 
         if post_data == 'On':
-             process.communicate(input=('0\n').encode())
-             process.stdin.close()
-             process.wait()
+            line = ('0\n').encode()
+            try:
+                p.stdin.write(line)
+            except IOError as e:
+                if e.errno == errno.EPIPE or e.errno == errno.EINVAL:
+                    # Stop loop on "Invalid pipe" or "Invalid argument".
+                    # No sense in continuing with broken pipe.
+                    break
+                else:
+                # Raise any other error.
+                raise
+                p.stdin.close()
+                p.wait()
        #     p.ChangeDutyCycle(7.5)
        #     time.sleep(1)
        #     p.ChangeDutyCycle(2.5)
@@ -75,9 +85,20 @@ class MyServer(BaseHTTPRequestHandler):
        #     p.ChangeDutyCycle(12.5)
        #     time.sleep(1)
         else:
-             process.communicate(input=('1\n').encode())
-             process.stdin.close()
-             process.wait(
+            line = ('1\n').encode()
+            try:
+                p.stdin.write(line)
+            except IOError as e:
+                if e.errno == errno.EPIPE or e.errno == errno.EINVAL:
+                    # Stop loop on "Invalid pipe" or "Invalid argument".
+                    # No sense in continuing with broken pipe.
+                    break
+                else:
+                # Raise any other error.
+                raise
+                p.stdin.close()
+                p.wait()
+                    
         #        p.stop()
         print("LED is {}".format(post_data))
         self._redirect('/')  # Redirect back to the root url
