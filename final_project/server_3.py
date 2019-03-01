@@ -1,11 +1,11 @@
 import RPi.GPIO as GPIO
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import SimpleHTTPServer
 from subprocess import Popen, PIPE
 from time import sleep
 from fcntl import fcntl, F_GETFL, F_SETFL
 from os import O_NONBLOCK, read, fdopen, popen
 import pty
-
+import SocketServer
 
 host_name = '0.0.0.0'
 host_port = 80
@@ -25,14 +25,14 @@ fcntl(stdout, F_SETFL, flags | O_NONBLOCK)
 
 # issue command:
 
-p.stdin.write(('0\n' % inputNum).encode())
+p.stdin.write(('0\n').encode())
     
 sleep(0.1)
-out = (stdout.read())[:-1]
+out = (stdout.readline())[:-1]
 print(out)
    
 
-class MyServer(BaseHTTPRequestHandler):
+class MyServer(SimpleHTTPServer.SimpleHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
         and control GPIO of a Raspberry Pi
     """
@@ -110,7 +110,7 @@ class MyServer(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    http_server = HTTPServer((host_name, host_port), MyServer)
+    http_server = SocketServer.TCPServer((host_name, host_port), MyServer)
     print("Server Starts - %s:%s" % (host_name, host_port))
 
     try:
