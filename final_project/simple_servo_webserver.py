@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import os
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import subprocess import Popen, PIPE
+from subprocess import Popen, PIPE
 
 host_name = '0.0.0.0'  # Change this to your Raspberry Pi IP address
 host_port = 80
@@ -65,7 +65,7 @@ class MyServer(BaseHTTPRequestHandler):
       #  p.start(7.5)
 
         if post_data == 'On':
-		process.communicate(input=('0\n').encode())
+             process.communicate(input=('0\n').encode())
        #     p.ChangeDutyCycle(7.5)
        #     time.sleep(1)
        #     p.ChangeDutyCycle(2.5)
@@ -73,7 +73,7 @@ class MyServer(BaseHTTPRequestHandler):
        #     p.ChangeDutyCycle(12.5)
        #     time.sleep(1)
         else:
-		process.communicate(input=('1\n').encode())
+             process.communicate(input=('1\n').encode())
         #        p.stop()
         print("LED is {}".format(post_data))
         self._redirect('/')  # Redirect back to the root url
