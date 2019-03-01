@@ -66,6 +66,8 @@ class MyServer(BaseHTTPRequestHandler):
 
         if post_data == 'On':
              process.communicate(input=('0\n').encode())
+             process.stdin.close()
+             process.wait()
        #     p.ChangeDutyCycle(7.5)
        #     time.sleep(1)
        #     p.ChangeDutyCycle(2.5)
@@ -74,6 +76,8 @@ class MyServer(BaseHTTPRequestHandler):
        #     time.sleep(1)
         else:
              process.communicate(input=('1\n').encode())
+             process.stdin.close()
+             process.wait(
         #        p.stop()
         print("LED is {}".format(post_data))
         self._redirect('/')  # Redirect back to the root url
