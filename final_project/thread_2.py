@@ -12,5 +12,7 @@ p.stdin.write(('0\n').encode())
 p.stdin.write(('1\n').encode())
 p.stdin.write(('0\n').encode())
 p.stdin.write(('3\n').encode())
-#print stdout.readline()
+
+p.stdin.close()
+print stdout.readline()
 #print stdout.readline()
