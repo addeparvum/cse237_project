@@ -3,11 +3,19 @@ import os
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from subprocess import Popen, PIPE
+from fcntl import fcntl, F_GETFL, F_SETFL
+from os import O_NONBLOCK, read, fdopen
+import pty
 
 host_name = '0.0.0.0'  # Change this to your Raspberry Pi IP address
 host_port = 80
 
-p = Popen(['./run.out'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+master, slave = pty.openpty()
+p = Popen(['./printOutput'],
+        stdin = PIPE, stdout = slave, stderr = slave, shell = True, bufsize=1)
+stdout = fdopen(master)
+flags = fcntl(stdout, F_GETFL) # get current p.stdout flags
+fcntl(stdout, F_SETFL, flags | O_NONBLOCK)
 
 class MyServer(BaseHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
@@ -65,19 +73,7 @@ class MyServer(BaseHTTPRequestHandler):
       #  p.start(7.5)
 
         if post_data == 'On':
-            line = ('0\n').encode()
-            try:
-                p.stdin.write(line)
-            except IOError as e:
-                if e.errno == errno.EPIPE or e.errno == errno.EINVAL:
-                    # Stop loop on "Invalid pipe" or "Invalid argument".
-                    # No sense in continuing with broken pipe.
-                    break
-                else:
-                # Raise any other error.
-                raise
-                p.stdin.close()
-                p.wait()
+            p.stdin.write(('0\n').encode())
        #     p.ChangeDutyCycle(7.5)
        #     time.sleep(1)
        #     p.ChangeDutyCycle(2.5)
@@ -85,19 +81,7 @@ class MyServer(BaseHTTPRequestHandler):
        #     p.ChangeDutyCycle(12.5)
        #     time.sleep(1)
         else:
-            line = ('1\n').encode()
-            try:
-                p.stdin.write(line)
-            except IOError as e:
-                if e.errno == errno.EPIPE or e.errno == errno.EINVAL:
-                    # Stop loop on "Invalid pipe" or "Invalid argument".
-                    # No sense in continuing with broken pipe.
-                    break
-                else:
-                # Raise any other error.
-                raise
-                p.stdin.close()
-                p.wait()
+            p.stdin.write(('1\n').encode())
                     
         #        p.stop()
         print("LED is {}".format(post_data))
