@@ -3,8 +3,8 @@ import os
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-host_name = '192.168.0.114'  # Change this to your Raspberry Pi IP address
-host_port = 8000
+host_name = '0.0.0.0'  # Change this to your Raspberry Pi IP address
+host_port = 80
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -63,13 +63,12 @@ class MyServer(BaseHTTPRequestHandler):
         p.start(7.5)
 
         if post_data == 'On':
-            while True:
-                p.ChangeDutyCycle(7.5)
-                time.sleep(1)
-                p.ChangeDutyCycle(2.5)
-                time.sleep(1)
-                p.ChangeDutyCycle(12.5)
-                time.sleep(1)
+            p.ChangeDutyCycle(7.5)
+            time.sleep(1)
+            p.ChangeDutyCycle(2.5)
+            time.sleep(1)
+            p.ChangeDutyCycle(12.5)
+            time.sleep(1)
         else:
                 p.stop()
         print("LED is {}".format(post_data))
