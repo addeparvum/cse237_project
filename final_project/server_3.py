@@ -21,15 +21,6 @@ stdout = fdopen(master)
 
 flags = fcntl(stdout, F_GETFL) # get current p.stdout flags
 fcntl(stdout, F_SETFL, flags | O_NONBLOCK)
-
-
-# issue command:
-
-p.stdin.write(('0\n').encode())
-    
-sleep(0.1)
-out = (stdout.readline())[:-1]
-print(out)
    
 
 class MyServer(SimpleHTTPServer.SimpleHTTPRequestHandler):
@@ -67,7 +58,7 @@ class MyServer(SimpleHTTPServer.SimpleHTTPRequestHandler):
         '''
 
         p.stdin.write(('4\n').encode())
-        sleep(0.1)
+        sleep(0.5)
         temp = (stdout.read())
        # temp = popen("/opt/vc/bin/vcgencmd measure_temp").read()
         self.do_HEAD()
