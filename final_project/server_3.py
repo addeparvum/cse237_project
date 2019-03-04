@@ -33,18 +33,11 @@ print(out)
    
 
 class MyServer(SimpleHTTPServer.SimpleHTTPRequestHandler):
-   
-        path_to_image = 'detectedface.png'
-        img = open(path_to_image,'rb')
-        statinfo = os.stat(path_to_image)
-        img_size = statinfo.st_size
-
 
     def do_HEAD(self):
      
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
-        self.send_header('content')
         self.end_headers()
 
     def _redirect(self, path):
@@ -61,9 +54,12 @@ class MyServer(SimpleHTTPServer.SimpleHTTPRequestHandler):
            <h1>Welcome to my Raspberry Pi</h1>
            <p>Box Output:{}</p>
            <form action="/" method="POST">
-               Turn LED :
-               <input type="submit" name="submit" value="On">
-               <input type="submit" name="submit" value="Off">
+               Lock Box:
+               <input type="submit" name="submit" value="Lock">
+               <input type="submit" name="submit" value="Unlock">
+               Open Box:
+               <input type="submit" name="submit" value="Open">
+               <input type="submit" name="submit" value="Close">
            </form>
            
            </body>
@@ -72,7 +68,7 @@ class MyServer(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
         p.stdin.write(('4\n').encode())
         sleep(0.1)
-        temp = (stdout.read())[:-1]
+        temp = (stdout.read())
        # temp = popen("/opt/vc/bin/vcgencmd measure_temp").read()
         self.do_HEAD()
         self.wfile.write(html.format(temp).encode("utf-8"))
@@ -84,16 +80,24 @@ class MyServer(SimpleHTTPServer.SimpleHTTPRequestHandler):
         post_data = post_data.split("=")[1]  # Only keep the value
 
 
-        if post_data == 'On':
+        if post_data == 'Open':
             p.stdin.write(('0\n').encode())
             sleep(0.1)
             out = (stdout.read())[:-1]
-      
-        else:
+        
+        else if post_data == 'Close':
             p.stdin.write(('1\n').encode())
             sleep(0.1)
             out = (stdout.read())[:-1]
             print(out)
+
+        else if post_data == 'Unlock':
+            p.stdin.write(('2\n').encode())
+            
+        else if post_data == 'Lock':
+            p.stdin.write(('3\n').encode())
+          
+
                     
         #        p.stop()
         print("LED is {}".format(post_data))
