@@ -65,6 +65,7 @@ class MyServer(SimpleHTTPServer.SimpleHTTPRequestHandler):
                <input type="submit" name="submit" value="On">
                <input type="submit" name="submit" value="Off">
            </form>
+           <img src="facedetected.jpg" alt="Italian Trulli">
            </body>
            </html>
         '''
