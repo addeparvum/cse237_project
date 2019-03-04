@@ -1,0 +1,32 @@
+- Python's Cyclic garbage collector has been turned off, it was causing a segfault when
+	creating large amounts of tuples in the blob detector.  There is a memory leak as a
+	consequence, though it takes a while before it becomes an issue
+	'Supporting cyclic garbage collection' seems to be the resource to look at for this
+- Robot control side of things is untested, although it outputs the correct speeds
+- There is no overall code listing for the python module, that will come shortly, the
+	module is well documented inside it though so it's a case of copying that across,
+	fancying it up and adding information
+- The makefile puts everything in place, but here's a reminder of dependencies
+
+libsdl1.2-dev is needed for compiling, probably don't need the dev package for usage
+
+libopencv-dev is also needed for compiling.  It's also used runtime as libimgproc.so
+	has the path of the haarcascade hardcoded in.  The hardcoded path is
+	"/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml", and can be found
+	in image.c -> detectFaces()
+
+imgproc.py needs to be moved into the path of python 2.7.  This should be 
+	"/usr/local/lib/python2.7/dist-packages/imgproc.py".  Basically Python needs to be
+	able to load it as a module.  Also imgproc.py needs to have execute/read
+	permissions for all users, so if it's in the correct directory and python can't
+	find it, check the permissions
+
+libimgproc.so needs to be in "/usr/lib/libimgproc.so".  This is so ctypes can find the
+	shared object.
+
+SDL should be correctly linked, but you may need to add it to the include path.  Also
+in the library path -lSDLmain should come before -lSDL
+
+
+- There is hopefully one more tutorial to come, but the current one should be in
+	reasonable good form now
